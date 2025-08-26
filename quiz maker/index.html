@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz Maker Platform</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <header>
+    <h1>Quiz Maker Platform</h1>
+    <nav>
+      <button onclick="showPage('home')">Home</button>
+      <button onclick="showPage('create')">Create Quiz</button>
+      <button onclick="showPage('list')">Take Quiz</button>
+    </nav>
+  </header>
+
+  <!-- Pages -->
+  <main>
+    <!-- Home Page -->
+    <section id="home" class="page active">
+      <h2>Welcome to the Quiz Platform 🎉</h2>
+      <p>Create fun quizzes or test your knowledge by taking quizzes!</p>
+    </section>
+
+    <!-- Quiz Creation -->
+    <section id="create" class="page">
+      <h2>Create a Quiz</h2>
+      <form id="quizForm">
+        <label>Question: <input type="text" id="question" required></label>
+        <label>Option A: <input type="text" id="optA" required></label>
+        <label>Option B: <input type="text" id="optB" required></label>
+        <label>Option C: <input type="text" id="optC" required></label>
+        <label>Option D: <input type="text" id="optD" required></label>
+        <label>Correct Answer:
+          <select id="correct">
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+          </select>
+        </label>
+        <button type="submit">Add Question</button>
+      </form>
+      <button onclick="saveQuiz()">Save Quiz</button>
+      <div id="createdQuestions"></div>
+    </section>
+
+    <!-- Quiz Listing -->
+    <section id="list" class="page">
+      <h2>Available Quizzes</h2>
+      <div id="quizList"></div>
+    </section>
+
+    <!-- Quiz Taking -->
+    <section id="takeQuiz" class="page">
+      <h2 id="quizTitle"></h2>
+      <div id="quizContainer"></div>
+      <button id="submitQuiz" onclick="submitQuiz()">Submit Quiz</button>
+    </section>
+
+    <!-- Quiz Results -->
+    <section id="results" class="page">
+      <h2>Your Results</h2>
+      <p id="scoreText"></p>
+      <button onclick="showPage('list')">Back to Quiz List</button>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

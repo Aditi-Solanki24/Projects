@@ -1,0 +1,119 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body {
+  background: #f5f6fa;
+  color: #2f3640;
+  text-align: center;
+  padding: 20px;
+}
+
+header {
+  background: #273c75;
+  color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+header h1 {
+  margin-bottom: 10px;
+}
+
+nav button {
+  background: #44bd32;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  margin: 5px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: 0.3s;
+}
+
+nav button:hover {
+  background: #4cd137;
+}
+
+.page {
+  display: none;
+}
+
+.page.active {
+  display: block;
+}
+
+form {
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+  text-align: left;
+}
+
+form label {
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+form input, select {
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+form button {
+  margin-top: 15px;
+  background: #0097e6;
+  color: white;
+  border: none;
+  padding: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+form button:hover {
+  background: #00a8ff;
+}
+
+#quizList button {
+  display: block;
+  margin: 10px auto;
+  padding: 10px 15px;
+  border: none;
+  background: #e84118;
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#quizList button:hover {
+  background: #c23616;
+}
+
+#quizContainer {
+  margin: 20px auto;
+  max-width: 400px;
+  text-align: left;
+}
+
+#quizContainer label {
+  display: block;
+  margin: 8px 0;
+}
+
+#submitQuiz {
+  display: none;
+  background: #8c7ae6;
+  color: #fff;
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
