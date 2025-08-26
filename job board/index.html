@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>JobBoard – Find your dream job</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#0e1320;
+    --panel:#121831;
+    --muted:#9fb1c9;
+    --text:#e9f1ff;
+    --accent:#37e0a7;
+    --accent-2:#6ea8ff;
+    --danger:#ff6b6b;
+    --success:#28d190;
+    --card:#0f1730;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family:Poppins,system-ui,Segoe UI,Roboto,Arial;
+    background:
+      radial-gradient(1000px 500px at 80% -10%, #274bff22, transparent 60%),
+      radial-gradient(800px 400px at -10% 10%, #37e0a720, transparent 60%),
+      var(--bg);
+    color:var(--text);
+  }
+
+  .nav{
+    position:sticky; top:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:12px 20px; background:rgba(10,14,28,.7); backdrop-filter: blur(10px);
+    border-bottom:1px solid #ffffff10;
+  }
+  .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--text); font-weight:700;}
+  .brand .logo{
+    width:34px; height:34px; display:grid; place-items:center;
+    border-radius:10px; background:linear-gradient(135deg,var(--accent),#6ee7f8);
+    color:#091226; font-weight:800;
+  }
+  .nav .links{display:flex; gap:14px; align-items:center; flex-wrap:wrap}
+  .nav a{color:var(--muted); text-decoration:none; font-weight:600}
+  .btn{
+    appearance:none; border:none; border-radius:12px; padding:10px 16px;
+    font-weight:700; background:linear-gradient(135deg,var(--accent),#00c9a7);
+    color:#04121a; cursor:pointer; transition:.2s transform;
+  }
+  .btn.small{padding:8px 12px; font-weight:600; font-size:.9rem}
+  .btn.alt{background:linear-gradient(135deg,var(--accent-2),#8fd3ff); color:#04121a}
+  .btn.ghost{background:#ffffff10; color:#fff}
+  .btn:active{transform:scale(.98)}
+
+
+  .container{max-width:1100px; margin:0 auto; padding:24px}
+  .hero{
+    padding:64px 24px 24px; text-align:left;
+    display:grid; grid-template-columns:1.2fr .8fr; gap:20px; align-items:center;
+  }
+  .hero h1{font-size:clamp(28px,5vw,48px); margin:0 0 10px}
+  .accent{background:linear-gradient(135deg,#6ea8ff,#69ffe3); -webkit-background-clip:text; background-clip:text; color:transparent}
+  .hero p{color:var(--muted); margin:8px 0 24px}
+  .hero-ill{
+    min-height:240px; border-radius:20px; background:linear-gradient(145deg,#1b2446,#0f1730);
+    border:1px solid #ffffff10; position:relative; overflow:hidden;
+  }
+  .spark{
+    position:absolute; inset:auto; border-radius:50%;
+    background:conic-gradient(from 0deg, #37e0a7, #6ea8ff, #37e0a7);
+    filter:blur(30px); opacity:.15; animation:spin 14s linear infinite;
+    width:280px; height:280px; right:-40px; top:-40px;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  .search{
+    background:#0b142c; border:1px solid #ffffff14; border-radius:16px; padding:12px;
+    display:grid; grid-template-columns:1fr 1fr 1fr auto; gap:10px; margin:12px 0 24px;
+  }
+  .input,.select{
+    background:#0e1a38; color:#eaf2ff; border:1px solid #ffffff12; border-radius:12px;
+    padding:12px; width:100%; outline:none;
+  }
+
+  
+  .grid{display:grid; gap:16px; grid-template-columns:repeat(3, 1fr)}
+  .card{
+    background:linear-gradient(180deg,#0e1731,#0a1226); border:1px solid #ffffff10; border-radius:16px;
+    padding:16px; box-shadow:0 6px 20px #00000030;
+  }
+  .card h3{margin:0 0 4px; font-size:18px}
+  .muted{color:var(--muted)}
+  .meta{display:flex; gap:8px; flex-wrap:wrap; margin:8px 0}
+  .tag{
+    border-radius:999px; padding:6px 10px; background:#ffffff12; color:#cfe7ff; font-size:.82rem
+  }
+
+  
+  .page h2{margin:6px 0 10px}
+  .detail{display:grid; grid-template-columns:1.1fr .9fr; gap:20px}
+  .panel{
+    background:var(--panel); border:1px solid #ffffff10; border-radius:16px; padding:16px;
+  }
+  .apply textarea,.apply input[type="file"]{width:100%; margin:8px 0 12px}
+  .list{display:flex; flex-direction:column; gap:10px}
+
+  
+  .auth{max-width:520px; margin:0 auto}
+  .row{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+  .field{display:flex; flex-direction:column; gap:6px}
+  .field label{font-size:.85rem; color:#cde0ff}
+  .field input,.field select,.field textarea{background:#0e1a38; color:#eaf2ff; border:1px solid #ffffff12; border-radius:12px; padding:12px}
+
+  .table{width:100%; border-collapse:collapse; border-spacing:0}
+  .table th,.table td{padding:10px 12px; border-bottom:1px solid #ffffff12; text-align:left}
+  .table th{color:#cde0ff; font-weight:600}
+
+  
+  .modal-backdrop{position:fixed; inset:0; background:#0008; display:none; place-items:center; z-index:200}
+  .modal{background:var(--panel); border:1px solid #ffffff18; border-radius:16px; width:min(560px,92vw); padding:18px}
+  .toast{position:fixed; right:16px; bottom:16px; background:#0b1a35; border:1px solid #ffffff20; padding:12px 14px; border-radius:12px; display:none; z-index:300}
+  .toast.success{border-color:#00e2a3aa}
+  .toast.danger{border-color:#ff6b6baa}
+
+  
+  footer{padding:30px; text-align:center; color:#a8b9d4}
+
+  
+  @media (max-width:980px){ .grid{grid-template-columns:repeat(2,1fr)} .detail{grid-template-columns:1fr} .hero{grid-template-columns:1fr} }
+  @media (max-width:640px){ .grid{grid-template-columns:1fr} .search{grid-template-columns:1fr; } .nav .links{gap:10px} }
+</style>
+</head>
+<body>
+
+
+<nav class="nav">
+  <a href="#/" class="brand"><span class="logo">JB</span> JobBoard</a>
+  <div class="links">
+    <a href="#/jobs">Browse Jobs</a>
+    <a href="#/employer">Employer</a>
+    <a href="#/candidate">Candidate</a>
+    <a href="#/login" class="btn small ghost" id="authBtn">Login</a>
+  </div>
+</nav>
+
+
+<main id="app" class="container"></main>
+
+
+<div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal" id="modal"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer>
+  © <span id="year"></span> JobBoard. All rights reserved.
+</footer>
+
+<script>
+
+const $ = (sel,ctx=document)=>ctx.querySelector(sel);
+const $$ = (sel,ctx=document)=>[...ctx.querySelectorAll(sel)];
+const store = {
+  get(key, fallback){ try { return JSON.parse(localStorage.getItem(key)) ?? fallback } catch{ return fallback } },
+  set(key, val){ localStorage.setItem(key, JSON.stringify(val)) },
+};
+const uid = ()=>crypto.randomUUID ? crypto.randomUUID() : (Date.now()+Math.random()).toString(36);
+
+
+if (!store.get("jobs")) {
+  store.set("jobs", [
+    {id:uid(), title:"Frontend Engineer", company:"BlueLeaf", location:"Noida", type:"Full-time", salaryMin:700000, salaryMax:1100000, description:"Build delightful UI with modern JS.", skills:["React","CSS","REST"], featured:true, createdAt:Date.now()-86400000*2},
+    {id:uid(), title:"Data Analyst", company:"InsightIQ", location:"Bengaluru", type:"Full-time", salaryMin:600000, salaryMax:950000, description:"Analyze data, build dashboards.", skills:["SQL","Python","Tableau"], featured:true, createdAt:Date.now()-86400000*6},
+    {id:uid(), title:"Backend Developer", company:"Nimbus", location:"Remote", type:"Contract", salaryMin:800000, salaryMax:1200000, description:"APIs, microservices, Node.", skills:["Node.js","MongoDB","Docker"], featured:false, createdAt:Date.now()-86400000*10},
+  ]);
+}
+if (!store.get("users")) store.set("users", []);
+if (!store.get("apps")) store.set("apps", []);
+
+
+const auth = {
+  me(){ return store.get("session", null); },
+  login({email,password}){
+    const users = store.get("users",[]);
+    const user = users.find(u=>u.email===email && u.password===password);
+    if (!user) throw new Error("Invalid credentials");
+    store.set("session", {id:user.id, name:user.name, role:user.role, email:user.email});
+    return user;
+  },
+  register(data){
+    const users = store.get("users",[]);
+    if (users.some(u=>u.email===data.email)) throw new Error("Email already exists");
+    const user = {...data, id:uid()};
+    users.push(user); store.set("users", users);
+    store.set("session", {id:user.id, name:user.name, role:user.role, email:user.email});
+    return user;
+  },
+  logout(){ localStorage.removeItem("session"); }
+};
+
+
+const toast = (msg, type="success")=>{
+  const el = $("#toast");
+  el.textContent = msg; el.className = "toast "+type; el.style.display="block";
+  setTimeout(()=> el.style.display="none", 2200);
+};
+const openModal = (html)=>{ $("#modal").innerHTML=html; $("#modalBackdrop").style.display="grid"; $("#modalBackdrop").setAttribute("aria-hidden","false"); }
+const closeModal = ()=>{ $("#modalBackdrop").style.display="none"; $("#modalBackdrop").setAttribute("aria-hidden","true"); }
+
+
+const Home = ()=>{
+  const me = auth.me();
+  const jobs = store.get("jobs",[]).sort((a,b)=>b.createdAt-a.createdAt).slice(0,6);
+  return `
+  <section class="hero">
+    <div>
+      <h1>Find your <span class="accent">Dream Job</span></h1>
+      <p>Search thousands of roles across top companies. Post openings and hire great talent.</p>
+      <div style="display:flex; gap:10px; flex-wrap:wrap">
+        <a class="btn" href="#/jobs">Browse Jobs</a>
+        ${me? `<a class="btn alt" href="#/${me.role==='employer'?'employer':'candidate'}">Go to Dashboard</a>` : `<a class="btn alt" href="#/register">Create Account</a>`}
+      </div>
+    </div>
+    <div class="hero-ill">
+      <div class="spark"></div>
+    </div>
+  </section>
+
+  <section>
+    <form id="searchForm" class="search">
+      <input name="q" class="input" placeholder="Search keyword (title, company, skill)"/>
+      <input name="location" class="input" placeholder="Location (e.g., Remote, Noida)"/>
+      <select name="type" class="select">
+        <option value="">Any type</option>
+        <option>Full-time</option><option>Part-time</option>
+        <option>Contract</option><option>Internship</option>
+      </select>
+      <button class="btn" type="submit">Find Job</button>
+    </form>
+  </section>
+
+  <section class="page">
+    <h2>Featured Jobs</h2>
+    <div class="grid">
+      ${jobs.map(Card).join("")}
+    </div>
+  </section>`;
+};
+
+const Jobs = (params={})=>{
+  const { q="", location="", type="" } = params;
+  let jobs = store.get("jobs",[]);
+  if (q) {
+    const s = q.toLowerCase();
+    jobs = jobs.filter(j =>
+      j.title.toLowerCase().includes(s) ||
+      j.company.toLowerCase().includes(s) ||
+      j.description.toLowerCase().includes(s) ||
+      (j.skills||[]).join(" ").toLowerCase().includes(s)
+    );
+  }
+  if (location) jobs = jobs.filter(j=>j.location.toLowerCase().includes(location.toLowerCase()));
+  if (type) jobs = jobs.filter(j=>j.type===type);
+
+  return `
+    <section class="page">
+      <h2>Job Listings</h2>
+      <form id="searchForm" class="search">
+        <input name="q" class="input" placeholder="Search keyword" value="${q}"/>
+        <input name="location" class="input" placeholder="Location" value="${location}"/>
+        <select name="type" class="select">
+          <option value="">Any type</option>
+          ${["Full-time","Part-time","Contract","Internship"].map(t=>`<option ${t===type?'selected':''}>${t}</option>`).join("")}
+        </select>
+        <button class="btn">Search</button>
+      </form>
+      <div class="grid">
+        ${jobs.length? jobs.map(Card).join("") : `<div class="muted">No jobs found.</div>`}
+      </div>
+    </section>
+  `;
+};
+
+const JobDetail = (id)=>{
+  const job = store.get("jobs",[]).find(j=>j.id===id);
+  if (!job) return `<p>Job not found.</p>`;
+  const me = auth.me();
+
+  return `
+  <section class="page detail">
+    <div class="panel">
+      <h2>${job.title}</h2>
+      <p class="muted">${job.company} • ${job.location} • ${job.type}</p>
+      <p class="muted">₹${job.salaryMin?.toLocaleString()} – ${job.salaryMax?.toLocaleString()}</p>
+      <div class="meta">${(job.skills||[]).map(s=>`<span class="tag">${s}</span>`).join("")}</div>
+      <p>${job.description || ""}</p>
+    </div>
+    <div class="panel">
+      <h3>Apply for this job</h3>
+      ${me && me.role==='candidate' ? `
+        <form class="apply" id="applyForm">
+          <textarea name="cover" rows="5" placeholder="Write a short cover letter..." required></textarea>
+          <input type="file" name="resume" accept=".pdf,.doc,.docx" required />
+          <button class="btn" type="submit">Submit Application</button>
+        </form>` :
+        `<div class="muted" style="margin:6px 0 12px">Please log in as a <b>candidate</b> to apply.</div>
+         <a class="btn" href="#/login">Login</a> <a class="btn alt" href="#/register">Register</a>`
+      }
+    </div>
+  </section>`;
+};
+
+const Employer = ()=>{
+  const me = auth.me();
+  if (!me || me.role!=='employer') return NotAllowed();
+
+  const myJobs = store.get("jobs",[]).filter(j=>j.ownerId===me.id);
+
+  return `
+  <section class="page">
+    <h2>Employer Dashboard</h2>
+    <p class="muted">Welcome, ${me.name}. Post jobs and manage applicants.</p>
+    <div style="display:flex; gap:10px; margin:10px 0 16px">
+      <button class="btn" id="btnNewJob">+ Post a Job</button>
+      <a href="#/logout" class="btn ghost">Logout</a>
+    </div>
+    <div class="panel">
+      <h3>Your Job Posts</h3>
+      <table class="table">
+        <thead><tr><th>Title</th><th>Company</th><th>Type</th><th>Posted</th><th></th></tr></thead>
+        <tbody>
+        ${myJobs.map(j=>`
+          <tr>
+            <td><a href="#/jobs/${j.id}">${j.title}</a></td>
+            <td>${j.company}</td>
+            <td>${j.type}</td>
+            <td>${new Date(j.createdAt).toLocaleDateString()}</td>
+            <td><button data-del="${j.id}" class="btn small ghost">Delete</button></td>
+          </tr>
+        `).join("") || `<tr><td colspan="5" class="muted">You haven't posted any jobs yet.</td></tr>`}
+        </tbody>
+      </table>
+    </div>
+  </section>`;
+};
+
+const Candidate = ()=>{
+  const me = auth.me();
+  if (!me || me.role!=='candidate') return NotAllowed();
+
+  const apps = store.get("apps",[]).filter(a=>a.candidateId===me.id);
+  const jobs = store.get("jobs",[]);
+  return `
+  <section class="page">
+    <h2>Candidate Dashboard</h2>
+    <p class="muted">Welcome, ${me.name}. Track your applications here.</p>
+    <div style="display:flex; gap:10px; margin:10px 0 16px">
+      <a href="#/jobs" class="btn">Browse Jobs</a>
+      <a href="#/logout" class="btn ghost">Logout</a>
+    </div>
+    <div class="panel">
+      <h3>Your Applications</h3>
+      <table class="table">
+        <thead><tr><th>Job</th><th>Company</th><th>Status</th><th>Applied</th></tr></thead>
+        <tbody>
+          ${apps.map(a=>{
+            const j = jobs.find(x=>x.id===a.jobId) || {};
+            return `<tr><td><a href="#/jobs/${a.jobId}">${j.title||"Deleted Job"}</a></td><td>${j.company||"-"}</td><td>${a.status}</td><td>${new Date(a.createdAt).toLocaleString()}</td></tr>`
+          }).join("") || `<tr><td colspan="4" class="muted">No applications yet.</td></tr>`}
+        </tbody>
+      </table>
+    </div>
+  </section>`;
+};
+
+const Login = ()=> `
+  <section class="page auth">
+    <h2>Login</h2>
+    <form id="loginForm" class="panel">
+      <div class="field"><label>Email</label><input type="email" name="email" required /></div>
+      <div class="field"><label>Password</label><input type="password" name="password" required /></div>
+      <button class="btn" type="submit">Login</button>
+      <p class="muted" style="margin-top:8px">No account? <a href="#/register">Register</a></p>
+    </form>
+  </section>`;
+
+const Register = ()=> `
+  <section class="page auth">
+    <h2>Create Account</h2>
+    <form id="registerForm" class="panel">
+      <div class="row">
+        <div class="field"><label>Name</label><input name="name" required /></div>
+        <div class="field"><label>Role</label>
+          <select name="role" required>
+            <option value="candidate">Candidate</option>
+            <option value="employer">Employer</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field"><label>Email</label><input type="email" name="email" required /></div>
+        <div class="field"><label>Password</label><input type="password" name="password" required /></div>
+      </div>
+      <div class="field"><label>Company (employers)</label><input name="company" placeholder="Optional" /></div>
+      <button class="btn" type="submit">Create Account</button>
+      <p class="muted" style="margin-top:8px">Already have an account? <a href="#/login">Login</a></p>
+    </form>
+  </section>`;
+
+const NotAllowed = ()=> `
+  <section class="page">
+    <h2>Access Restricted</h2>
+    <p class="muted">Please log in with the correct role to view this page.</p>
+    <a class="btn" href="#/login">Login</a>
+  </section>`;
+
+/* COMPONENT: card */
+function Card(j){
+  return `<div class="card">
+    <h3>${j.title}</h3>
+    <div class="muted">${j.company} • ${j.location}</div>
+    <div class="meta">
+      <span class="tag">${j.type}</span>
+      <span class="tag">₹${(j.salaryMin||0).toLocaleString()}–${(j.salaryMax||0).toLocaleString()}</span>
+    </div>
+    <div class="muted">${(j.description||'').slice(0,100)}...</div>
+    <div style="display:flex; gap:8px; margin-top:10px">
+      <a href="#/jobs/${j.id}" class="btn small">View</a>
+    </div>
+  </div>`;
+}
+
+
+const routes = {
+  "": Home,
+  "/": Home,
+  "/jobs": Jobs,              
+  "/jobs/:id": JobDetail,
+  "/employer": Employer,
+  "/candidate": Candidate,
+  "/login": Login,
+  "/register": Register,
+  "/logout": ()=>{ auth.logout(); toast("Logged out","success"); return Home(); }
+};
+function parseRoute(){
+  const hash = location.hash.replace(/^#/, "") || "/";
+  const parts = hash.split("/").filter(Boolean);
+  // dynamic route
+  if (parts[0]==="jobs" && parts[1]) return { path:"/jobs/:id", params:{id:parts[1]} };
+  return { path: "/"+parts.join("/"), params:{} };
+}
+function render(state={}){
+  const {path, params} = parseRoute();
+  let view = routes[path] || (()=>"<p>Not Found</p>");
+  $("#app").innerHTML = view(params.id ? params.id : state);
+  bindEvents(path, state, params);
+
+  $("#authBtn").textContent = auth.me() ? "Logout" : "Login";
+  $("#authBtn").setAttribute("href", auth.me()? "#/logout" : "#/login");
+}
+window.addEventListener("hashchange", ()=>render());
+document.addEventListener("DOMContentLoaded", ()=>{
+  render();
+  $("#year").textContent = new Date().getFullYear();
+});
+
+
+function bindEvents(path, state, params){
+  
+  const searchForm = $("#searchForm");
+  if (searchForm){
+    searchForm.addEventListener("submit", (e)=>{
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(searchForm).entries());
+      
+      location.hash = "#/jobs";
+      render(data);
+    });
+  }
+
+  
+  const loginForm = $("#loginForm");
+  if (loginForm){
+    loginForm.addEventListener("submit", e=>{
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(loginForm).entries());
+      try { auth.login(data); toast("Welcome back!"); location.hash="#/"; }
+      catch(err){ toast(err.message,"danger"); }
+    });
+  }
+
+  const registerForm = $("#registerForm");
+  if (registerForm){
+    registerForm.addEventListener("submit", e=>{
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(registerForm).entries());
+      try { auth.register(data); toast("Account created!"); location.hash="#/"; }
+      catch(err){ toast(err.message,"danger"); }
+    });
+  }
+
+  
+  const applyForm = $("#applyForm");
+  if (applyForm){
+    applyForm.addEventListener("submit", (e)=>{
+      e.preventDefault();
+      const me = auth.me();
+      if (!me || me.role!=='candidate') return toast("Please login as candidate.","danger");
+
+      const resume = applyForm.querySelector('input[type="file"]').files[0];
+      const cover = applyForm.cover.value.trim();
+      if (!resume) return toast("Please attach resume","danger");
+
+      const app = {
+        id:uid(), jobId: params.id, candidateId: me.id,
+        resumeName: resume.name, cover, status:"submitted", createdAt: Date.now()
+      };
+      const apps = store.get("apps",[]); apps.push(app); store.set("apps",apps);
+      toast("Application submitted!");
+      
+      console.log(`📧 Email to employer: New application for job ${params.id} from ${me.name} (${me.email}).`);
+      location.hash = "#/candidate";
+    });
+  }
+
+
+  const btnNew = $("#btnNewJob");
+  if (btnNew){
+    btnNew.addEventListener("click", ()=>{
+      openModal(`
+        <h3>Post a Job</h3>
+        <form id="jobForm" class="list">
+          <div class="row">
+            <div class="field"><label>Title</label><input name="title" required></div>
+            <div class="field"><label>Company</label><input name="company" required></div>
+          </div>
+          <div class="row">
+            <div class="field"><label>Location</label><input name="location" required></div>
+            <div class="field"><label>Type</label>
+              <select name="type" required>
+                <option>Full-time</option><option>Part-time</option>
+                <option>Contract</option><option>Internship</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="field"><label>Salary Min</label><input name="salaryMin" type="number" required></div>
+            <div class="field"><label>Salary Max</label><input name="salaryMax" type="number" required></div>
+          </div>
+          <div class="field"><label>Skills (comma separated)</label><input name="skills" placeholder="React, Node, SQL"></div>
+          <div class="field"><label>Description</label><textarea name="description" rows="5" required></textarea></div>
+          <div style="display:flex; gap:8px">
+            <button class="btn" type="submit">Publish</button>
+            <button class="btn ghost" type="button" id="closeModal">Cancel</button>
+          </div>
+        </form>
+      `);
+      $("#closeModal").onclick = closeModal;
+      $("#modalBackdrop").addEventListener("click",(e)=>{ if(e.target.id==="modalBackdrop") closeModal(); });
+
+      $("#jobForm").addEventListener("submit",(e)=>{
+        e.preventDefault();
+        const me = auth.me(); if(!me) return;
+        const data = Object.fromEntries(new FormData(e.target).entries());
+        const job = {
+          id:uid(), ownerId: me.id, createdAt: Date.now(),
+          ...data,
+          salaryMin: Number(data.salaryMin), salaryMax: Number(data.salaryMax),
+          skills: data.skills? data.skills.split(",").map(s=>s.trim()).filter(Boolean) : []
+        };
+        const jobs = store.get("jobs",[]); jobs.unshift(job); store.set("jobs",jobs);
+        toast("Job posted!");
+        closeModal(); render();
+      });
+    });
+  }
+
+  
+  $$("#app [data-del]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const id = btn.getAttribute("data-del");
+      const jobs = store.get("jobs",[]);
+      const idx = jobs.findIndex(j=>j.id===id);
+      if (idx>-1) {
+        jobs.splice(idx,1); store.set("jobs",jobs); toast("Job removed"); render();
+      }
+    })
+  });
+}
+
+
+</script>
+</body>
+</html>
