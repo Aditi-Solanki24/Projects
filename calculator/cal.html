@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glowvana Calculator</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle at top, #0f2027, #203a43, #2c5364);
+      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* Floating math symbols */
+    .symbol {
+      position: absolute;
+      font-size: 2.5rem;
+      color: rgba(255, 255, 255, 0.15);
+      animation: float 10s infinite linear;
+    }
+
+    @keyframes float {
+      from { transform: translateY(110vh) rotate(0deg); }
+      to { transform: translateY(-10vh) rotate(360deg); }
+    }
+
+    /* Calculator box */
+    .calculator {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 0 40px rgba(0, 255, 200, 0.6);
+      width: 340px;
+      text-align: center;
+    }
+
+    .display {
+      background: #111;
+      color: #0fffc1;
+      font-size: 2rem;
+      padding: 20px;
+      text-align: right;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: inset 0 0 12px rgba(0,255,200,0.6);
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    button {
+      padding: 20px;
+      font-size: 1.3rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: linear-gradient(145deg, #1f1f1f, #333);
+      color: #fff;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+    }
+
+    button:hover {
+      background: linear-gradient(145deg, #292929, #444);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.7), 0 0 10px #0fffc1;
+    }
+
+    button:active {
+      transform: scale(0.95);
+      box-shadow: inset 0 0 10px rgba(0,255,200,0.8);
+    }
+
+    .operator {
+      background: linear-gradient(145deg, #ff6f61, #d43f00);
+    }
+
+    .equal {
+      background: linear-gradient(145deg, #00c6ff, #0072ff);
+      color: #fff;
+      grid-column: span 2;
+    }
+
+    .clear {
+      background: linear-gradient(145deg, #ff007a, #ff4da6);
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <!-- Floating math symbols -->
+  <div class="symbol" style="left:10%; animation-duration: 12s;">+</div>
+  <div class="symbol" style="left:20%; animation-duration: 9s;">−</div>
+  <div class="symbol" style="left:70%; animation-duration: 14s;">×</div>
+  <div class="symbol" style="left:85%; animation-duration: 11s;">÷</div>
+  <div class="symbol" style="left:40%; animation-duration: 16s;">π</div>
+  <div class="symbol" style="left:60%; animation-duration: 13s;">√</div>
+
+  <!-- Calculator -->
+  <div class="calculator">
+    <div id="display" class="display">0</div>
+    <div class="buttons">
+      <button class="clear">C</button>
+      <button class="operator">/</button>
+      <button class="operator">*</button>
+      <button class="operator">-</button>
+
+      <button>7</button>
+      <button>8</button>
+      <button>9</button>
+      <button class="operator">+</button>
+
+      <button>4</button>
+      <button>5</button>
+      <button>6</button>
+      <button>.</button>
+
+      <button>1</button>
+      <button>2</button>
+      <button>3</button>
+      <button class="equal">=</button>
+
+      <button style="grid-column: span 2;">0</button>
+    </div>
+  </div>
+
+  <script>
+    const display = document.getElementById('display');
+    const buttons = document.querySelectorAll('button');
+    let currentInput = '';
+    let resultDisplayed = false;
+
+    buttons.forEach(button => {
+      button.addEventListener('click', () => {
+        const value = button.textContent;
+
+        if (value === 'C') {
+          currentInput = '';
+          display.textContent = '0';
+        } else if (value === '=') {
+          try {
+            currentInput = eval(currentInput).toString();
+            display.textContent = currentInput;
+          } catch {
+            display.textContent = 'Error';
+            currentInput = '';
+          }
+        } else {
+          if (display.textContent === '0' || resultDisplayed) {
+            currentInput = value;
+            resultDisplayed = false;
+          } else {
+            currentInput += value;
+          }
+          display.textContent = currentInput;
+        }
+      });
+    });
+  </script>
+</body>
+</html>
