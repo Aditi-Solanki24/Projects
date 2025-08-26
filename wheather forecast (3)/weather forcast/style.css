@@ -1,0 +1,294 @@
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(-45deg, #2193b0, #6dd5ed, #00c6ff, #0072ff);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    color: white;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+.weather-app {
+    padding: 20px;
+}
+
+.search-box {
+    margin: 20px 0;
+}
+
+.search-box input {
+    padding: 10px;
+    width: 200px;
+    border: none;
+    border-radius: 4px;
+}
+
+.search-box button {
+    padding: 10px 15px;
+    margin-left: 5px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(45deg, #ff9800, #ff5722);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.search-box button:hover {
+    transform: scale(1.1);
+    background: linear-gradient(45deg, #e68900, #d84315);
+}
+
+
+.weather-info {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 15px;
+    display: inline-block;
+    margin: 15px auto;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s forwards;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.weather-info h2 {
+    font-size: 1.5em;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+#forecast-data, #past-data {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.forecast-item {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 15px;
+    border-radius: 12px;
+    min-width: 120px;
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.forecast-item:hover {
+    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Sky container */
+.sky {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  overflow: hidden;
+  z-index: -1; /* behind app */
+}
+
+/* Clouds */
+.cloud {
+  position: absolute;
+  top: 10%;
+  width: 200px; height: 60px;
+  background: #fff;
+  border-radius: 100px;
+  animation: moveClouds 60s linear infinite;
+  opacity: 0.7;
+  box-shadow: 60px 20px 60px #fff,
+              120px 30px 80px #fff,
+              180px 20px 100px #fff;
+}
+.cloud:nth-child(2) {
+  top: 30%;
+  left: -250px;
+  animation-duration: 80s;
+  opacity: 0.5;
+}
+
+@keyframes moveClouds {
+  0% { left: -300px; }
+  100% { left: 100%; }
+}
+
+/* Rain */
+.rain {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  background-image: 
+    linear-gradient(transparent, rgba(255,255,255,0.5));
+  background-size: 2px 30px;
+  animation: rainFall 0.5s linear infinite;
+}
+
+@keyframes rainFall {
+  0% { background-position: 0 -30px; }
+  100% { background-position: 0 0; }
+}
+/* Base Cloud */
+.cloud {
+  position: absolute;
+  top: 10%;
+  width: 200px;
+  height: 60px;
+  background: #fff;
+  border-radius: 100px;
+  opacity: 0.8;
+  animation: moveClouds linear infinite;
+  box-shadow: 60px 20px 60px #fff,
+              120px 30px 80px #fff,
+              180px 20px 100px #fff;
+}
+
+/* Cloud animation */
+@keyframes moveClouds {
+  0%   { transform: translateX(-300px); }
+  100% { transform: translateX(120vw); }
+}
+
+/* Different clouds with random speeds/sizes/positions */
+.c1 {
+  top: 15%;
+  left: -250px;
+  width: 220px;
+  height: 70px;
+  opacity: 0.7;
+  animation-duration: 60s;
+}
+
+.c2 {
+  top: 30%;
+  left: -300px;
+  width: 180px;
+  height: 50px;
+  opacity: 0.6;
+  animation-duration: 90s;
+}
+
+.c3 {
+  top: 50%;
+  left: -350px;
+  width: 260px;
+  height: 80px;
+  opacity: 0.8;
+  animation-duration: 110s;
+}
+
+.c4 {
+  top: 70%;
+  left: -400px;
+  width: 200px;
+  height: 60px;
+  opacity: 0.5;
+  animation-duration: 75s;
+}
+
+.c5 {
+  top: 20%;
+  left: -200px;
+  width: 240px;
+  height: 70px;
+  opacity: 0.9;
+  animation-duration: 100s;
+}
+/* 🌙 Moon */
+.moon {
+  position: absolute;
+  top: 15%;
+  right: 15%;
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle at 30% 30%, #fff, #ccc);
+  border-radius: 50%;
+  box-shadow: 0 0 40px rgba(255,255,255,0.8);
+  display: none; /* hidden by default */
+}
+
+/* ✨ Stars created with CSS */
+.stars {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: transparent;
+  overflow: hidden;
+  display: none;
+}
+
+.stars::before,
+.stars::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 200%; height: 200%;
+  background: radial-gradient(2px 2px at 20% 30%, #fff, transparent),
+              radial-gradient(2px 2px at 80% 20%, #fff, transparent),
+              radial-gradient(2px 2px at 50% 80%, #fff, transparent),
+              radial-gradient(2px 2px at 60% 40%, #fff, transparent),
+              radial-gradient(2px 2px at 30% 70%, #fff, transparent),
+              radial-gradient(2px 2px at 90% 90%, #fff, transparent);
+  background-repeat: repeat;
+  animation: twinkle 50s linear infinite;
+  opacity: 0.8;
+}
+
+@keyframes twinkle {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-200px); }
+}
+/* 🌠 Shooting Stars */
+.shooting-star {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 2px;
+  height: 80px;
+  background: linear-gradient(-45deg, white, transparent);
+  opacity: 0;
+  transform: rotate(45deg);
+  animation: shoot 3s linear infinite;
+}
+
+/* Different timing for each star */
+.s1 { top: 20%; left: 30%; animation-delay: 5s; }
+.s2 { top: 40%; left: 60%; animation-delay: 12s; }
+.s3 { top: 10%; left: 80%; animation-delay: 20s; }
+
+/* Shooting animation */
+@keyframes shoot {
+  0%   { opacity: 0; transform: translateX(0) translateY(0) rotate(45deg); }
+  10%  { opacity: 1; }
+  100% { opacity: 0; transform: translateX(-300px) translateY(300px) rotate(45deg); }
+}
+
+
+
+    body.sunny .rain { display: none; }
+body.sunny .cloud { opacity: 0.3; }
+
+body.cloudy .rain { display: none; }
+body.cloudy .cloud { opacity: 0.9; }
+
+body.rainy .rain { display: block; }
+body.rainy .cloud { opacity: 0.8; }

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="weather-app">
+        <h1>🌦 Weather App</h1>
+
+        <!-- Search Box -->
+        <div class="search-box">
+            <input type="text" id="cityInput" placeholder="Enter city name">
+            <button onclick="getWeatherByCity()">Search</button>
+        </div>
+
+        <!-- Weather Info -->
+        <div id="weather-info" class="weather-info">
+            <p>Fetching weather data...</p>
+        </div>
+    </div>
+
+
+<!-- Future Forecast -->
+    <div id="future-weather" class="weather-info">
+        <h3>🔮 5-Day Forecast</h3>
+    <div id="forecast-data"></div>
+    </div>
+  
+ <!-- Animated Sky Background -->
+<div class="sky">
+  <!-- Clouds (day) -->
+  <div class="cloud c1"></div>
+  <div class="cloud c2"></div>
+  <div class="cloud c3"></div>
+  <div class="cloud c4"></div>
+  <div class="cloud c5"></div>
+
+  <!-- Night mode -->
+    <div class="moon"></div>
+    <div class="stars"></div>
+    </div>
+    <div class="shooting-star s1"></div>
+    <div class="shooting-star s2"></div>
+    <div class="shooting-star s3"></div>
+    <div class="shooting-star s4"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
